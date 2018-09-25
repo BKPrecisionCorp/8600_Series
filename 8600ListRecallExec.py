@@ -1,0 +1,33 @@
+import visa
+import time
+rm=visa.ResourceManager()
+li=rm.list_resources()
+for index in range(len(li)):
+    print(str(index)+" - "+li[index])
+choice = input("Which device?: ")
+vi=rm.open_resource(li[int(choice)])
+print(vi.query("*idn?"))
+
+print("Run list 2")
+vi.write("list:rcl 2")
+vi.write("func:mode list")
+print(vi.query("func:mode?"))
+vi.write("trigger:source bus")
+print(vi.query("trigger:source?"))
+vi.write("input on")
+vi.write("*trg")
+time.sleep(2)
+vi.write("input off")
+vi.write("func:mode fix")
+
+print("Run list 3")
+vi.write("list:rcl 3")
+vi.write("func:mode list")
+print(vi.query("func:mode?"))
+vi.write("trigger:source bus")
+print(vi.query("trigger:source?"))
+vi.write("input on")
+vi.write("*trg")
+time.sleep(2)
+vi.write("input off")
+vi.write("func:mode fix")
